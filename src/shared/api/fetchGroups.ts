@@ -26,12 +26,15 @@ const delay = async (ms: number) => {
 const fetchGroups = async (): Promise<GetGroupsResponse> => {
 	await delay(1000);
 
-	const isSuccess = Math.random() < 0.7;
+	const isSuccess = false;
+	const isTotalError = true;
 	if (isSuccess) {
 		return {
 			result: 1,
 			data: groupsData
 		};
+	} else if (isTotalError) {
+		throw new Error('Fetch error');
 	} else {
 		return {
 			result: 0

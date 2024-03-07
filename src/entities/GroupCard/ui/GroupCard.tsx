@@ -2,8 +2,8 @@ import cls from './GroupCard.module.scss';
 import { classNames } from 'shared/lib/classNames/classNames';
 import React, { FC } from 'react';
 
-interface GroupCardProps {
-	id: number,
+export interface GroupCardProps {
+	id?: number,
 	name: string,
 	closed: boolean,
 	avatar_color?: string,
