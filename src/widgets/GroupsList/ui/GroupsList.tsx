@@ -5,20 +5,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from 'shared/api/fetchGroups';
 import { getGroups, GroupCard, groupsActions } from 'entities/GroupCard';
 import { Loader } from 'shared/ui/Loader/Loader';
-import { Filters, filtersActions, getFilteredGroups } from 'features/Filters';
+import { Filters, filtersActions, getCurrentFilters, getFilteredGroups } from 'features/Filters';
 
 interface GroupsListProps {
     className?: string
 }
 
 export const GroupsList = ({ className }: GroupsListProps) => {
+	// обычно выношу в отдельный хук useHttp для запросов
 	const [error, setError] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const dispatch = useDispatch();
+	const groups = useSelector(getGroups);
 	const filteredGroups = useSelector(getFilteredGroups);
+	// достаю, чтобы отрисовывать выбранный фильтр
+	const currentFilters = useSelector(getCurrentFilters);
 
-	const fetchGroupsData = async () => { // разделить логику по файлам?
+
+	// функция для запроса данных с условного бекенда (обычно выношу в отдельный хук вместе с loading и error)
+	const fetchGroupsData = async () => { // может все же вынести?
 		setError(false); // каждый раз при новом запросе сбрасываем ошибку в false
 
 		try {
@@ -38,20 +44,53 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 		}
 	};
 
+
+	// при первом запуске запрашиваем данные с уловного бекенда
 	useEffect(() => {
 		fetchGroupsData();
 	}, []);
 
-	const renderGroups = () => { // функция для рендера данных
+
+	// отрисовка карточек групп
+	const renderGroups = () => {
+		if (filteredGroups.length === 0) {
+			return 'Список пуст!';
+		}
+
 		return filteredGroups.map((group) => {
 			const { id, ...groupProps } = group;
 			return <GroupCard key={id} id={id} {...groupProps} />;
 		});
 	};
 
-	const isError = error && !loading ? 'Something went wrong...' : null;
-	const isLoading = loading && !error ? <Loader/> : null;
+
+	// достаю фильтры для цветов и готовлю их для передачи в компонент фильтров
+	const colors = Array.from(
+		new Set(groups.map(group => group.avatar_color))
+	);
+
+	const colorsFilters = colors.map(color => {
+		return {
+			name: color,
+			value: color
+		};
+	});
+
+
+	// далее идет проверка для условного отображения
+	const isError = error && !loading;
+	const isLoading = loading && !error;
 	const content = !error && !loading ? renderGroups() : null;
+
+	// если ошибка - не будет отрисовывать виджет впринципе, покажем лишь сообщение об ошибке
+	if (isError) {
+		return 'Something went wrong...';
+	}
+
+	// выводим спиннер, если данные загружаются и нет ошибки
+	if (isLoading) {
+		return <Loader/>;
+	}
 
 	return (
 		<div className={classNames(cls.GroupsList, {}, [className])}>
@@ -60,10 +99,11 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 					[
 						{ name: 'ВСЕ', value: null },
 						{ name: 'ОТКРЫТЫЕ', value: false },
-						{ name: 'ЗАКРЫТЫЕ', value: true }
+						{ name: 'ЗАКРЫТЫЕ', value: true },
 					]
 				}
 				filterAction={filtersActions.setClosedFilter}
+				currentFilter={currentFilters.closed}
 			/>
 
 			<Filters
@@ -75,6 +115,21 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 					]
 				}
 				filterAction={filtersActions.setFriendsFilter}
+				currentFilter={currentFilters.hasFriends}
+			/>
+
+			<Filters
+				filters={
+					[
+						{
+							name: 'ВСЕ',
+							value: null
+						},
+						...colorsFilters
+					]
+				}
+				filterAction={filtersActions.setAvatarFilter}
+				currentFilter={currentFilters.avatarColor}
 			/>
 
 			{isError}
