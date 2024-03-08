@@ -6,7 +6,6 @@ const App = () => {
 
 	return (
 		<div className={classNames('App', {}, [])}>
-			Something...
 			<MainPage/>
 		</div>
 	);

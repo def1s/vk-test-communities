@@ -8,9 +8,7 @@
     "build:prod": "npx webpack build --env mode=production",
     "build:dev": "npx webpack build --env mode=development",
     "linter:ts": "eslint \"**/*.{ts,tsx}\"",
-    "linter:ts:fix": "eslint \"**/*.{ts,tsx}\" --fix",
-    "linter:scss": "npx stylelint \"**/*.scss\"",
-    "linter:scss:fix": "npx stylelint \"**/*.scss\""
+    "linter:ts:fix": "eslint \"**/*.{ts,tsx}\" --fix"
   },
   "keywords": [],
   "author": "",

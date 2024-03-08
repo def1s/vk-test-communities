@@ -1,5 +1,7 @@
-import { GroupsListSchema } from 'widgets/GroupsList';
+import { GroupsSchema } from 'entities/GroupCard';
+import { FiltersSchema } from 'features/Filters';
 
 export interface StateSchema {
-	groups: GroupsListSchema
+	groups: GroupsSchema,
+	filters: FiltersSchema
 }

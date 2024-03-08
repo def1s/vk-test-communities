@@ -3,9 +3,9 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from 'shared/api/fetchGroups';
-import { groupsListActions } from '../model/slice/groupsListSlice';
-import { getGroupsList } from '../model/selectors/getGroupsList';
-import { GroupCard } from 'entities/GroupCard';
+import { getGroups, GroupCard, groupsActions } from 'entities/GroupCard';
+import { Loader } from 'shared/ui/Loader/Loader';
+import { Filters, filtersActions, getFilteredGroups } from 'features/Filters';
 
 interface GroupsListProps {
     className?: string
@@ -16,7 +16,8 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const dispatch = useDispatch();
-	const groups = useSelector(getGroupsList); // получение данных из стора
+	const groups = useSelector(getGroups); // получение данных из стора
+	const filteredGroups = useSelector(getFilteredGroups);
 
 	const fetchGroupsData = async () => { // разделить логику по файлам?
 		setError(false); // каждый раз при новом запросе сбрасываем ошибку в false
@@ -26,7 +27,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 			const response = await fetchGroups();
 			if (response.result === 1 && response.data) { // если не идет в true - значит ошибка, данные не пришли
-				dispatch(groupsListActions.setGroupsList(response.data));
+				dispatch(groupsActions.setGroupsList(response.data));
 			} else {
 				setError(true);
 			}
@@ -36,25 +37,26 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 		} finally { // в любом случае завершаем загрузку
 			setLoading(false);
 		}
- 	};
+	};
 
 	useEffect(() => {
 		fetchGroupsData();
 	}, []);
 
 	const renderGroups = () => { // функция для рендера данных
-		return groups.map((group) => {
+		return filteredGroups.map((group) => {
 			const { id, ...groupProps } = group;
-			return <GroupCard key={id} {...groupProps} />;
+			return <GroupCard key={id} id={id} {...groupProps} />;
 		});
 	};
 
 	const isError = error && !loading ? 'Something went wrong...' : null;
-	const isLoading = loading && !error ? 'Loading...' : null;
+	const isLoading = loading && !error ? <Loader/> : null;
 	const content = !error && !loading ? renderGroups() : null;
 
 	return (
 		<div className={classNames(cls.GroupsList, {}, [className])}>
+			<Filters filters={['first', 'second', 'third']}/>
 			{isError}
 			{isLoading}
 			{content}

@@ -1,5 +1,12 @@
 .GroupCard {
     display: flex;
+    width: 500px;
+    height: 110px;
+    border: solid;
+    border-width: 1px;
+    border-color: #000;
+    margin-bottom: 10px;
+    padding: 5px 0 5px 0;
 }
 
 .cover {
@@ -9,9 +16,15 @@
 }
 
 .name {
+    margin-top: 20px;
+    margin-left: 20px;
     font-size: 20px;
 }
 
 .status {
+
+}
+
+.memberCount {
 
 }

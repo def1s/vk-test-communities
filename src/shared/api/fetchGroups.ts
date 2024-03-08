@@ -5,7 +5,7 @@ interface GetGroupsResponse {
 	data?: Group[]
 }
 
-interface Group {
+export interface Group {
 	'id': number,
 	'name': string,
 	'closed': boolean,
@@ -14,7 +14,7 @@ interface Group {
 	'friends'?: User[]
 }
 
-interface User {
+export interface User {
 	'first_name': string,
 	'last_name': string
 }
@@ -26,8 +26,9 @@ const delay = async (ms: number) => {
 const fetchGroups = async (): Promise<GetGroupsResponse> => {
 	await delay(1000);
 
-	const isSuccess = false;
-	const isTotalError = true;
+	// можно регулировать исход симуляции фетча
+	const isSuccess = Math.random() < 0.7;
+	const isTotalError = Math.random() > 0.9;
 	if (isSuccess) {
 		return {
 			result: 1,

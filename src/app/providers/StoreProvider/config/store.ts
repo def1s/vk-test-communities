@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { StateSchema } from './StateSchema';
-import { groupsListReducer } from 'widgets/GroupsList';
-
+import { groupsReducer } from 'entities/GroupCard';
+import { filtersReducer } from 'features/Filters';
 
 export function createReduxStore(initialState?: StateSchema) {
 	return configureStore<StateSchema>({
 		reducer: {
-			groups: groupsListReducer
+			groups: groupsReducer,
+			filters: filtersReducer
 		},
 		devTools: __IS_DEV__,
 		preloadedState: initialState
