@@ -16,7 +16,6 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const dispatch = useDispatch();
-	const groups = useSelector(getGroups); // получение данных из стора
 	const filteredGroups = useSelector(getFilteredGroups);
 
 	const fetchGroupsData = async () => { // разделить логику по файлам?
@@ -56,7 +55,28 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 	return (
 		<div className={classNames(cls.GroupsList, {}, [className])}>
-			<Filters filters={['first', 'second', 'third']}/>
+			<Filters
+				filters={
+					[
+						{ name: 'ВСЕ', value: null },
+						{ name: 'ОТКРЫТЫЕ', value: false },
+						{ name: 'ЗАКРЫТЫЕ', value: true }
+					]
+				}
+				filterAction={filtersActions.setClosedFilter}
+			/>
+
+			<Filters
+				filters={
+					[
+						{ name: 'ВСЕ', value: null },
+						{ name: 'С ДРУЗЬЯМИ', value: true },
+						{ name: 'БЕЗ ДРУЗЕЙ', value: false }
+					]
+				}
+				filterAction={filtersActions.setFriendsFilter}
+			/>
+
 			{isError}
 			{isLoading}
 			{content}

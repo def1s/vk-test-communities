@@ -5,7 +5,7 @@ const initialState: FiltersSchema = {
 	currentFilters: {
 		closed: null,
 		avatarColor: null,
-		hasFriends: false
+		hasFriends: null
 	},
 	filteredGroups: []
 };
@@ -14,9 +14,15 @@ export const filtersSlice = createSlice({
 	name: 'filters',
 	initialState,
 	reducers: {
-		// setGroupsList: (state, actions) => {
-		// 	state.groups= actions.payload;
-		// }
+		setClosedFilter: (state, actions) => {
+			state.currentFilters.closed = actions.payload;
+		},
+		setAvatarFilter: (state, actions) => {
+			state.currentFilters.avatarColor = actions.payload;
+		},
+		setFriendsFilter: (state, actions) => {
+			state.currentFilters.hasFriends = actions.payload;
+		}
 	}
 });
 

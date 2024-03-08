@@ -13,7 +13,8 @@ export const GroupCard: FC<GroupCardProps> = (props) => {
 		closed,
 		avatar_color,
 		members_count,
-		className
+		className,
+		friends
 	} = props;
 
 	return (
@@ -26,6 +27,11 @@ export const GroupCard: FC<GroupCardProps> = (props) => {
 			}
 			<div className={cls.name}>{name}</div>
 			<div className={cls.status}>{closed ? 'Закрытая' : 'Открытая'}</div>
+			{
+				friends ?
+					<div className={cls.friends}>Друзей: {friends.length}</div>
+					: null
+			}
 			<div>{members_count}</div>
 		</div>
 	);

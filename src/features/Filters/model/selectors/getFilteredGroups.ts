@@ -11,15 +11,19 @@ export const getFilteredGroups = createSelector(
 			let passFilter = true;
 
 			if (closed !== null) {
-				passFilter = passFilter && group.closed === closed;
+				passFilter = group.closed === closed;
 			}
 
 			if (avatarColor !== null) {
 				passFilter = passFilter && (group.avatar_color === avatarColor || avatarColor === 'any');
 			}
 
-			if (hasFriends) {
-				passFilter = passFilter && group.friends && group.friends.length > 0;
+			if (hasFriends != null) {
+				if (hasFriends) {
+					passFilter = passFilter && (group.friends && group.friends.length > 0);
+				} else {
+					passFilter = passFilter && !group.friends;
+				}
 			}
 
 			return passFilter;

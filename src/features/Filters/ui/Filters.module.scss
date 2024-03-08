@@ -4,9 +4,12 @@
 
 .filter {
     cursor: pointer;
-    width: 100px;
     height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
+    &:last-child {
+        margin-right: 0;
+    }
 }
