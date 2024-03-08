@@ -2,9 +2,7 @@
     display: flex;
     width: 500px;
     height: 110px;
-    border: solid;
-    border-width: 1px;
-    border-color: #000;
+    border: 1px solid #000;
     margin-bottom: 10px;
     padding: 5px 0 5px 0;
 }
@@ -22,13 +20,15 @@
 }
 
 .status {
-
+    margin-top: 20px;
 }
 
 .memberCount {
-
+    margin-top: 20px;
 }
 
 .friends {
+    margin-top: 20px;
     margin-right: 20px;
+    cursor: pointer;
 }

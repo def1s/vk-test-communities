@@ -77,7 +77,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 	});
 
 
-	// далее идет проверка для условного отображения
+	// далее идут проверки для условного отображения
 	const isError = error && !loading;
 	const isLoading = loading && !error;
 	const content = !error && !loading ? renderGroups() : null;

@@ -1,0 +1,16 @@
+.Modal {
+    position: absolute;
+}
+
+.content {
+    //padding: 20px;
+}
+
+.cross:after {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    content: "\00d7"; /* This will render the 'X' */;
+    cursor: pointer;
+    z-index: 1;
+}
