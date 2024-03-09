@@ -2,6 +2,7 @@ import cls from './FilterEntity.module.scss';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { FC } from 'react';
 
+// немного стилей для активного и неактивного фильтров
 export enum FilterThemes {
 	// eslint-disable-next-line no-unused-vars
 	DEFAULT = 'default',

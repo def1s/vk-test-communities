@@ -1,6 +1,6 @@
 import cls from './GroupsList.module.scss';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from 'shared/api/fetchGroups';
 import { getGroups, GroupCard, groupsActions } from 'entities/GroupCard';
@@ -19,7 +19,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 	const dispatch = useDispatch();
 	const groups = useSelector(getGroups);
 	const filteredGroups = useSelector(getFilteredGroups);
-	// достаю, чтобы отрисовывать выбранный фильтр
+	// достаю, чтобы отрисовывать выбранные фильтры
 	const currentFilters = useSelector(getCurrentFilters);
 
 
@@ -69,12 +69,12 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 		new Set(groups.map(group => group.avatar_color))
 	);
 
-	const colorsFilters = colors.map(color => {
-		return {
+	const colorsFilters = useMemo(() => {
+		return colors.map(color => ({
 			name: color,
 			value: color
-		};
-	});
+		}));
+	}, [colors]);
 
 
 	// далее идут проверки для условного отображения
@@ -136,8 +136,6 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 				currentFilter={currentFilters.avatarColor}
 			/>
 
-			{isError}
-			{isLoading}
 			{content}
 		</div>
 	);
