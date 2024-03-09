@@ -1,3 +1,13 @@
+//.Filters {
+//    display: flex;
+//}
+
 .Filters {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    overflow-x: auto;
+    margin-bottom: 20px;
 }
