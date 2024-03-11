@@ -1,11 +1,11 @@
 .GroupCard {
     display: flex;
+    position: relative;
     align-items: center;
     width: 500px;
     height: auto;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding-left: 20px;
     margin-bottom: 20px;
@@ -41,10 +41,17 @@
 .friends {
     cursor: pointer;
     color: #007bff;
-    text-decoration: underline;
     font-size: 14px;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .wrapper {
     padding: 20px;
+}
+
+.plug {
+    width: 100px;
+    height: 100px;
 }

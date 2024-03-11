@@ -18,7 +18,7 @@ export const getFilteredGroups = createSelector(
 				passFilter = passFilter && (group.avatar_color === avatarColor || avatarColor === 'any');
 			}
 
-			if (hasFriends != null) {
+			if (hasFriends !== null) {
 				if (hasFriends) {
 					passFilter = passFilter && (group.friends && group.friends.length > 0);
 				} else {

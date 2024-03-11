@@ -10,17 +10,18 @@ export enum FilterThemes {
 	ACTIVE = 'active'
 }
 
-export type filterValueType = string | boolean | null;
+export type FilterValueType = string | boolean | null;
 
 export interface FilterEntityProps {
 	name: string,
-	value: filterValueType,
+	value: FilterValueType,
 	// eslint-disable-next-line no-unused-vars
-	handleFilterChange?: (value: filterValueType) => void,
+	handleFilterChange?: (value: FilterValueType) => void,
 	theme?: FilterThemes,
     className?: string
 }
 
+// компонент для одного фильтра
 export const FilterEntity: FC<FilterEntityProps> = (props) => {
 	const {
 		theme = FilterThemes.DEFAULT,
@@ -30,12 +31,16 @@ export const FilterEntity: FC<FilterEntityProps> = (props) => {
 		className
 	} = props;
 
+	if (!name) {
+		return null;
+	}
+
 	return (
 		<div
 			className={classNames(cls.FilterEntity, {}, [className, cls[theme]])}
 			onClick={() => handleFilterChange(value)}
 		>
-			{name ? name.toUpperCase() : 'NONE'}
+			{name.toUpperCase()}
 		</div>
 	);
 };
