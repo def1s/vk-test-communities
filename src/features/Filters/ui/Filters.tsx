@@ -4,6 +4,7 @@ import { FC, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from '@reduxjs/toolkit';
 import { FilterEntity, FilterEntityProps, FilterThemes, FilterValueType } from 'entities/FilterEntity';
+import { Selector } from 'shared/ui/Selector/Selector';
 
 interface FiltersProps {
 	filters: FilterEntityProps[],
@@ -27,23 +28,11 @@ export const Filters: FC<FiltersProps> = (props) => {
 		dispatch(filterAction(value));
 	};
 
-	const renderFilters = useMemo(() => {
-		return filters.map(({ name, value }, index) => {
-			return (
-				<FilterEntity
-					key={index}
-					name={name}
-					value={value}
-					theme={currentFilter === value ? FilterThemes.ACTIVE : FilterThemes.DEFAULT}
-					handleFilterChange={handleFilterChange}
-				/>
-			);
-		});
-	}, [filters, currentFilter]);
+	const options = filters.map(({ name, value }) => ({ label: name.toUpperCase(), value }));
 
 	return (
 		<div className={classNames(cls.Filters, {}, [className])}>
-			{ renderFilters }
+			<Selector options={options} value={currentFilter} onChange={handleFilterChange}/>
 		</div>
 	);
 };

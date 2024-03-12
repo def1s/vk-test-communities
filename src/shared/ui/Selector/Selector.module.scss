@@ -1,0 +1,36 @@
+.Selector {
+    position: relative;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.Selector:hover {
+    border-color: #888;
+}
+
+.Options {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.Options div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.Options div:hover {
+    background-color: #f0f0f0;
+}
