@@ -12,7 +12,7 @@ interface GroupsListProps {
 }
 
 export const GroupsList = ({ className }: GroupsListProps) => {
-	// обычно выношу в отдельный хук useHttp для запросов
+	// обычно выношу в отдельный хук для запросов
 	const [error, setError] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,7 +24,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 
 	// функция для запроса данных с условного бекенда (обычно выношу в отдельный хук вместе с loading и error)
-	const fetchGroupsData = async () => { // может все же вынести?
+	const fetchGroupsData = async () => {
 		setError(false); // каждый раз при новом запросе сбрасываем ошибку в false
 
 		try {
@@ -71,7 +71,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 	const colorsFilters = useMemo(() => {
 		return colors.map(color => ({
-			name: color,
+			label: color,
 			value: color
 		}));
 	}, [colors]);
@@ -98,43 +98,45 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 	return (
 		<div className={classNames(cls.GroupsList, {}, [className])}>
-			<Filters
-				filters={
-					[
-						{ name: 'ВСЕ', value: null },
-						{ name: 'ОТКРЫТЫЕ', value: false },
-						{ name: 'ЗАКРЫТЫЕ', value: true },
-					]
-				}
-				filterAction={filtersActions.setClosedFilter}
-				currentFilter={currentFilters.closed}
-			/>
+			<div className={cls.wrapper}>
+				<Filters
+					filters={
+						[
+							{ label: 'ВСЕ', value: null },
+							{ label: 'ОТКРЫТЫЕ', value: false },
+							{ label: 'ЗАКРЫТЫЕ', value: true },
+						]
+					}
+					filterAction={filtersActions.setClosedFilter}
+					currentFilter={currentFilters.closed}
+				/>
 
-			<Filters
-				filters={
-					[
-						{ name: 'ВСЕ', value: null },
-						{ name: 'С ДРУЗЬЯМИ', value: true },
-						{ name: 'БЕЗ ДРУЗЕЙ', value: false }
-					]
-				}
-				filterAction={filtersActions.setFriendsFilter}
-				currentFilter={currentFilters.hasFriends}
-			/>
+				<Filters
+					filters={
+						[
+							{ label: 'ВСЕ', value: null },
+							{ label: 'С ДРУЗЬЯМИ', value: true },
+							{ label: 'БЕЗ ДРУЗЕЙ', value: false }
+						]
+					}
+					filterAction={filtersActions.setFriendsFilter}
+					currentFilter={currentFilters.hasFriends}
+				/>
 
-			<Filters
-				filters={
-					[
-						{
-							name: 'ВСЕ',
-							value: null
-						},
-						...colorsFilters
-					]
-				}
-				filterAction={filtersActions.setAvatarFilter}
-				currentFilter={currentFilters.avatarColor}
-			/>
+				<Filters
+					filters={
+						[
+							{
+								label: 'ВСЕ',
+								value: null
+							},
+							...colorsFilters
+						]
+					}
+					filterAction={filtersActions.setAvatarFilter}
+					currentFilter={currentFilters.avatarColor}
+				/>
+			</div>
 
 			{content}
 		</div>
