@@ -84,7 +84,7 @@ export const GroupsList = ({ className }: GroupsListProps) => {
 
 	// если ошибка - не будет отрисовывать виджет впринципе, покажем лишь сообщение об ошибке
 	if (isError) {
-		return 'Something went wrong... Reload the page!';
+		return <div className={cls.error}>Something went wrong... Reload the page!</div>;
 	}
 
 	// выводим спиннер, если данные загружаются и нет ошибки
