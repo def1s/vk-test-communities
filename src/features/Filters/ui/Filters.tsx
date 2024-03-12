@@ -1,12 +1,12 @@
 import cls from './Filters.module.scss';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from '@reduxjs/toolkit';
-import { FilterEntity, FilterEntityProps, FilterThemes, FilterValueType } from 'entities/FilterEntity';
+import { FilterValueType, OptionType, Selector } from 'shared/ui/Selector/Selector';
 
 interface FiltersProps {
-	filters: FilterEntityProps[],
+	filters: OptionType[],
 	// eslint-disable-next-line no-unused-vars
 	filterAction: (payload: FilterValueType) => Action,
 	currentFilter: FilterValueType,
@@ -23,27 +23,25 @@ export const Filters: FC<FiltersProps> = (props) => {
 
 	const dispatch = useDispatch();
 
-	const handleFilterChange = (value: FilterValueType) => {
+	// обработчик изменения фильтра
+	const handleFilterChange = useCallback((value: FilterValueType) => {
 		dispatch(filterAction(value));
-	};
+	}, [dispatch, filterAction]);
 
-	const renderFilters = useMemo(() => {
-		return filters.map(({ name, value }, index) => {
-			return (
-				<FilterEntity
-					key={index}
-					name={name}
-					value={value}
-					theme={currentFilter === value ? FilterThemes.ACTIVE : FilterThemes.DEFAULT}
-					handleFilterChange={handleFilterChange}
-				/>
-			);
-		});
-	}, [filters, currentFilter]);
+
+	// преобразуем фильтры в нужный формат для селектора и не отображаем пустые фильтры
+	const options = useMemo(() => {
+		return filters.reduce((acc, { label, value }) => {
+			if (label) {
+				acc.push({ label: label.toUpperCase(), value });
+			}
+			return acc;
+		}, []);
+	}, [filters]);
 
 	return (
 		<div className={classNames(cls.Filters, {}, [className])}>
-			{ renderFilters }
+			<Selector options={options} value={currentFilter} onChange={handleFilterChange}/>
 		</div>
 	);
 };
